@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>snake</title>
+</head>
+<body onload="draw()">
+     <div style="width: 888px ; margin: auto">
+		 <canvas id="canvas" width="800" height="500" 
+		 style="background:lightskyblue;"></canvas>
+     </div>
+
+     <script>
+		const TEXT_SIZE = 20;
+     	var canvas = document.getElementById("canvas");
+     	var ctx = canvas.getContext("2d");
+     	var dir, score, balls, food, obst, obst1,obst2,obst3,obst4,obst5;
+		 var textAlpha,text;
+		 
+		 //set event handlers
+        document.addEventListener("keydown", keyDown);
+
+     	function snakePosition() {
+			
+     		dir = 'right';
+     		score = 0;
+     		balls = [
+                {x:40, y:40},
+                {x:60, y:40},
+                {x:80, y:40}
+			 ];
+			obst = [
+				{x:200, y:400}
+			];
+			obst1 = [
+				{x:600, y:200}
+			];
+			obst2 = [
+				{x:300, y:300},
+				{x:100, y:100}
+			];
+			obst3 = [
+				{x:360, y:220},
+				{x:500, y:100}
+			];
+			obst4 = [
+				{x:600, y:0},
+				{x:80, y:200},
+				{x:600, y:400}
+
+			];
+			obst5 = [
+				//{x:300, y:300},
+				{x:500, y:80},
+				{x:700, y:420}
+			];
+             snakeFood();
+         }
+
+		 function snakeFood(){
+			
+			food = {x: Math.floor(Math.random()*39), y: Math.floor(Math.random()*24)};
+			for(var i=0;i<balls.length;i++) {
+				var ball = balls[i];
+				for(var j=0;j<obst.length;j++){
+					var obs = obst[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs.x && food.y == obs.y) {
+						snakeFood();
+					}
+				}
+				for(var j=0;j<obst1.length;j++){
+					var obs1 = obst1[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs1.x && food.y == obs1.y) {
+						snakeFood();
+					}
+				}
+				for(var j=0;j<obst2.length;j++){
+					var obs2 = obst2[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs2.x && food.y == obs2.y) {
+						snakeFood();
+					}
+				}
+				for(var j=0;j<obst3.length;j++){
+					var obs3 = obst3[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs3.x && food.y == obs3.y) {
+						snakeFood();
+					}
+				}
+				for(var j=0;j<obst4.length;j++){
+					var obs4 = obst4[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs4.x && food.y == obs4.y) {
+						snakeFood();
+					}
+				}
+				for(var j=0;j<obst5.length;j++){
+					var obs5 = obst5[j];
+					if(food.x == ball.x && food.y == ball.y && food.x == obs5.x && food.y == obs5.y) {
+						snakeFood();
+					}
+				}
+			}
+		 }
+		 function gameOver() {
+			text = "Game Over";
+			textAlpha = 1.0;
+		 }
+		 snakePosition();
+		 
+		 function keyDown(ev){
+            switch(ev.keyCode){
+                case 37:  //left arrow (rotate ship left)
+                    dir = 'left';
+                    break;
+                case 38:  //up arrow
+                    dir = 'up';
+                    break;
+                case 39:  //right arrow
+					dir = 'right';
+                    break;
+				case 40:  //down arrow
+					dir = 'down';
+                    break;
+            }
+        }
+		 
+		 function update(){
+			 var lastBall = balls[balls.length-1];
+			 if(dir == 'right'){
+			 balls.push({x:lastBall.x+20,y:lastBall.y});
+			 }
+
+			 if(dir == 'down'){
+			 balls.push({x:lastBall.x,y:lastBall.y+20});
+			 }
+
+			 if(dir == 'left'){
+			 balls.push({x:lastBall.x-20,y:lastBall.y});
+			 }
+
+			 if(dir == 'up'){
+			 balls.push({x:lastBall.x,y:lastBall.y-20});
+			 }
+		 }
+
+		function obstacle1() {
+			if(score >= 20) {
+				var lastBall = balls[balls.length-1];
+				for(var j=0;j<obst1.length;j++){
+					obs1 = obst1[j];
+					if((lastBall.x == obs1.x && lastBall.y == obs1.y && j<obst1.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs1.x+20 && lastBall.y == obs1.y && j<obst1.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs1.x+40 && lastBall.y == obs1.y && j<obst1.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs1.x+60 && lastBall.y == obs1.y && j<obst1.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					ctx.fillStyle = "red";
+					ctx.fillRect(obs1.x,obs1.y,80,20);
+				}
+			}
+		}
+
+		function obstacle2() {
+			if(score >= 30) {
+				var lastBall = balls[balls.length-1];
+				for(var j=0;j<obst2.length;j++){
+					obs2 = obst2[j];
+					if((lastBall.x == obs2.x && lastBall.y == obs2.y && j<obst2.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs2.x+20 && lastBall.y == obs2.y && j<obst2.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs2.x+40 && lastBall.y == obs2.y && j<obst2.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs2.x+60 && lastBall.y == obs2.y && j<obst2.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					ctx.fillStyle = "red";
+					ctx.fillRect(obs2.x,obs2.y,80,20);
+				}
+			}
+		}
+
+		function obstacle3() {
+			if(score >= 40) {
+				var lastBall = balls[balls.length-1];
+				for(var j=0;j<obst3.length;j++){
+					obs3 = obst3[j];
+					if((lastBall.x == obs3.x && lastBall.y == obs3.y && j<obst3.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs3.x && lastBall.y == obs3.y+20 && j<obst3.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs3.x && lastBall.y == obs3.y+40 && j<obst3.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs3.x && lastBall.y == obs3.y+60 && j<obst3.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					ctx.fillStyle = "red";
+					ctx.fillRect(obs3.x,obs3.y,20,80);
+				}
+			}
+		}
+
+		function obstacle4() {
+			if(score >= 50) {
+				var lastBall = balls[balls.length-1];
+				for(var j=0;j<obst4.length;j++){
+					obs4 = obst4[j];
+					if((lastBall.x == obs4.x && lastBall.y == obs4.y && j<obst4.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs4.x && lastBall.y == obs4.y+20 && j<obst4.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs4.x && lastBall.y == obs4.y+40 && j<obst4.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs4.x && lastBall.y == obs4.y+60 && j<obst4.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					ctx.fillStyle = "red";
+					ctx.fillRect(obs4.x,obs4.y,20,80);
+				}
+			}
+		}
+
+		function obstacle5() {
+			if(score >= 60) {
+				var lastBall = balls[balls.length-1];
+				for(var j=0;j<obst5.length;j++){
+					obs5 = obst5[j];
+					if((lastBall.x == obs5.x && lastBall.y == obs5.y && j<obst5.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs5.x+20 && lastBall.y == obs5.y && j<obst5.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs5.x+40 && lastBall.y == obs5.y && j<obst5.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					if((lastBall.x == obs5.x+60 && lastBall.y == obs5.y && j<obst5.length)){
+						alert("GAME OVER, Your Score Is: " + score);
+						snakePosition();
+					}
+					ctx.fillStyle = "red";
+					ctx.fillRect(obs5.x,obs5.y,80,20);
+				}
+			}
+		}
+
+     	function animation() {
+     		ctx.clearRect(0,0,888,555);
+			balls.shift();
+			update();
+     		var lastBall = balls[balls.length-1]; 
+                if(lastBall.x == food.x*20 && lastBall.y == food.y*20){
+				   score += 10;
+				   update();
+                   snakeFood(); 
+			    }
+
+     		for(var i=0; i<balls.length; i++){
+
+				ball = balls[i];
+				 
+				ctx.fillStyle="blue";
+				 
+				if(ball.x>780){
+					ball.x = 0;
+				}
+				if(ball.x<0){
+					ball.x = 780;
+				}
+				if(ball.y>480){
+					ball.y = 0;
+				}
+				if(ball.y<0){
+					ball.y = 480;
+				}
+					if(score >= 10) {
+						for(var j=0;j<obst.length;j++){
+							obs = obst[j];
+							if((lastBall.x == obs.x && lastBall.y == obs.y && j<obst.length)){
+								alert("GAME OVER, Your Score Is: " + score);
+								//gameOver();
+								snakePosition();
+							}
+							if((lastBall.x == obs.x && lastBall.y == obs.y+20 && j<obst.length)){
+								alert("GAME OVER, Your Score Is: " + score);
+								//gameOver();
+								snakePosition();
+							}
+							if((lastBall.x == obs.x && lastBall.y == obs.y+40 && j<obst.length)){
+								alert("GAME OVER, Your Score Is: " + score);
+								//gameOver();
+								snakePosition();
+							}
+							if((lastBall.x == obs.x && lastBall.y == obs.y+60 && j<obst.length)){
+								alert("GAME OVER, Your Score Is: " + score);
+								//gameOver();
+								snakePosition();
+							}
+							if((lastBall.x == obs.x && lastBall.y == obs.y+80 && j<obst.length)){
+								alert("GAME OVER, Your Score Is: " + score);
+								//gameOver();
+								snakePosition();
+							}
+							ctx.fillStyle = "red";
+							ctx.fillRect(obs.x,obs.y,20,100);
+						}
+					}
+					
+					obstacle1();
+					obstacle2();
+					obstacle3();
+					obstacle4();
+					obstacle5();
+				 
+				 if((ball.x == lastBall.x && ball.y == lastBall.y && i< balls.length-2)){
+					 alert("GAME OVER- Your Score Is: " + score);
+					 snakePosition(); 
+				 }
+				ctx.fillStyle = "blue";
+     			ctx.fillRect(ball.x,ball.y,20,20);
+			 }
+			 //draw the text
+			 /*if(textAlpha >= 0) {
+				ctx.textAlign = "center";
+				ctx.fillStyle = "rgba(255, 255, 255, " + textAlpha + ")";
+				ctx.font =  TEXT_SIZE + "px dejavu sans mono";
+				ctx.fillText(text, canvas.width / 2, canvas.height * 0.75);
+			}*/
+			 ctx.fillStyle = "green";
+			 ctx.fillRect(food.x*20,food.y*20,20,20);
+
+			 ctx.font =  TEXT_SIZE + "px dejavu sans mono";
+             ctx.fillText("score: " + score,20,20);
+     	}
+     	  setInterval(animation,150);
+     </script>
+</body>
+</html>
